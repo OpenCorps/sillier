@@ -12,21 +12,14 @@ file_type = vhdlSource-2008
 logical_name=libaxis_1
 usage = sim synth
 
-[fileset sim_files]
+[fileset tb_files]
 files = 
  bench/vhdl/suv/axis_bfm.vhd
-file_type = vhdlSource-2008
-logical_name=libaxis_1
-usage = sim
-
-[fileset tb_files]
-files =
  bench/vhdl/suv/tb_axis_packet_fifo.vhd
  bench/vhdl/suv/tb_axis_framer.vhd
  bench/vhdl/suv/tb_axis_sync_fifo.vhd
 file_type = vhdlSource-2008
 logical_name=libaxis_1
-scope = private
 usage = sim
 
 [simulator]
@@ -37,3 +30,4 @@ name = github
 user = olofk
 repo = libaxis
 version = master
+
