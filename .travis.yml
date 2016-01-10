@@ -1,0 +1,31 @@
+# Trusty (beta) - slower to boot but 7.5GB RAM
+sudo: required
+dist: trusty
+
+# For now, we limit to Python 2.7
+language: python
+python:
+  - '2.7'
+
+env:
+  global:
+    - secure: "eVTPYluwFPcgOnp4ow6dgqg0SGy6QOgvcnN5TL0UksXEGXCtHvhYROevVKANr6pUg0xg+3f854dHsmpG10ww0yQe5AqjgSnzi2A51dpbzWxqhlpei5+vE25CgpxfkG4wWlMZB7ljEUMuW/Ix6DUzK2d5Ijm+YEWWdfvT/osUcMh4p7YOuCE6bbvixRkhaObF7rV4Hd5qKvvGm2bD70Yz1MDl8jgRx7qfXU5cGtW1clswkKm990atat411NufczqCGKoPD9PiVup6LmKvYx7OOL8X/wCwgp/K0CshQhTnmqlObaw35rQGPvLzp/2lkR4fL73zyA3vDsNv0R1QQRK0FEwzmizl8Jh8WnsJ7mC5Ee7gIMlB/8Rt+s5g/avBBRiPWp4jZbArGySOXrzZfS1CC2XXX9NjU1LJMkSlJ6J1YU+fX20MVU4PJ66qu1xnHOCt07l90nasVT7dGObxzY5zAYzZ4yDy3IaqBZBunDKBPjmLBO1Mxv/W+faStHrRCr2eqAynuSfbAUUAZMWRNsck1DPfPn6u/f2hYsb9tdlCukUxt3VqZ4jjBk7VxNZGfXM5q56JApORsErjSIsnVzCA4wdtNBkDrvSLasKqxphmsQKDc43ciUO3MP7TYvs/gu/ajb43wkKZ/vZV2NAERyBMPt2gQJDK1r8gUbW7Zk57gNY="
+    - secure: "NLZ+nqxTr/n9Oq34M44uNgRrQYS71hn3Uba3Bkqf3tzxY6frlwnN94jLgk9KzswCetLkC6FDWf1n5Hyoq7lJTTcs5+0TNJBDCqZLDsFvMK66/dZnXbPfX2rlkK9+Fw0yKRj36Lc1BBb73OjAjvyT2a1MN1j0zyOjb3rMsQvo8SrvH0neTRRjTJiTPtv0yJ68L4UmeWcORxC/f5gyMlAgsP6NFQ5Mdze9V+w1eeJ/kAWUWa0oWhj48jei7QS8/xYTvJ7yxUaaa2rv2F894Hei4hkyVr71w6xXdBuUSJvfjSYm2q3fxUpog8RF1xwKTG2CyV7Bespy0j0xlSgtCI2c7gMFSqaoZsIOp5mJk68nC3XJhHYvPPmL7Z0B7w5vtQ7pOyWFp9EuslRsuEZOMDtIgehzmmeji7hfuvoxGkUIWu1rqPkcrx+u8LoFR8bbgEo0G0u4xaSmkr7wM4cW71ZHtO+w5k2s71LJrnVxveoGdVwHr2/tgdvA3ruY+ZmBdP9NGwuOnGsLggA6XVhOjgyyJJjFliHxrv50W+Iggf8OgJ0nHf7FahG7YeZ4CwTiqUQFeCuxucyyshVaottXbDlTenb3xzM8zbMCjAhYKNUWEL6uNBInGpnTOsnAxtBezai47f4Bh6WVgsWAq6piKnAkdpx5WV5CxlVOgKZkdPxc1U8="
+    - CORE=packet_generator
+    - REPOSITORY=chiggs/sillier
+  matrix:
+    - VUNIT_FUSESOC_SIMULATION=true
+
+before_install:
+  - sudo dpkg --add-architecture i386
+  - sudo apt-get update
+  - sudo apt-get install -y build-essential
+  - sudo apt-get install -y gcc-multilib g++-multilib lib32z1 lib32stdc++6 lib32gcc1 expat:i386 fontconfig:i386 libfreetype6:i386 libexpat1:i386 libc6:i386 libgtk-3-0:i386 libcanberra0:i386 libpng12-0:i386 libice6:i386 libsm6:i386 libncurses5:i386 zlib1g:i386 libx11-6:i386 libxau6:i386 libxdmcp6:i386 libxext6:i386 libxft2:i386 libxrender1:i386 libxt6:i386 libxtst6:i386
+
+install:
+  - pip install git+git://github.com/chiggs/fusesoc
+  - pip install git+git://github.com/LarsAsplund/vunit
+  - git clone https://github.com/potentialventures/buildtools
+
+script:
+  - ./buildtools/travis/build.sh
